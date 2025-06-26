@@ -6,6 +6,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const workRoutes = require('./routes/workRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const supervisorRoutes = require('./routes/supervisorRoutes');
 
 
  // ✅ allow all origins
@@ -29,6 +30,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/work', workRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/supervisor', require('./routes/supervisorRoutes'));
+
+
 
 
 

@@ -4,14 +4,40 @@ const workSchema = new mongoose.Schema({
   client_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   token_no: { type: String, unique: true, required: true },
   description: { type: String, required: true },
-  location: { type: String, required: true },       // ✅ new
-  work_type: { type: String, enum: ['construct', 'repair', 'build'], required: true }, // ✅ new
-  requirement: { type: String, enum: ['high', 'medium', 'light'], required: true },    // ✅ new
-  status: { type: String, enum: ['Submitted', 'Approved', 'Assigned', 'In Progress', 'Completed'], default: 'Submitted' },
-   approvalStatus: { type: String, enum: ['Pending', 'Approved', 'Rejected'], default: 'Pending' },
+  location: { type: String, required: true },
+  work_type: {
+    type: String,
+    enum: ['construct', 'repair', 'build'],
+    required: true
+  },
+  requirement: {
+    type: String,
+    enum: ['high', 'medium', 'light'],
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['Submitted', 'Approved', 'Assigned', 'In Progress', 'Completed'],
+    default: 'Submitted'
+  },
+  approvalStatus: {
+    type: String,
+    enum: ['Pending', 'Approved', 'Rejected'],
+    default: 'Pending'
+  },
+  assigned_to: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  },
+  
+estimatedTime: String,
+laborRequired: String,
+startPhoto: String,
+completionPhoto: String,
+materialRequest: String,
+materialApproved: { type: Boolean, default: false }
 
-  assigned_to: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
-  approved_by: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }, // optional
 
 }, { timestamps: true });
 

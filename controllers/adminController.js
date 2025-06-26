@@ -38,7 +38,10 @@ exports.approveWork = async (req, res) => {
   }
 };
 exports.assignSupervisor = async (req, res) => {
+  
+
   try {
+    
     const { workId, supervisorId } = req.body;
 
     if (!workId || !supervisorId) {
@@ -67,6 +70,30 @@ exports.assignSupervisor = async (req, res) => {
     res.json({ message: 'Supervisor assigned successfully', work });
   } catch (err) {
     console.error('Assign supervisor error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+exports.getAllWorks = async (req, res) => {
+  try {
+    const works = await Work.find().populate('client_id', 'name email').populate('assigned_to', 'name');
+    res.json(works);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
+exports.approveMaterialRequest = async (req, res) => {
+  try {
+    const { workId } = req.body;
+    const work = await Work.findById(workId);
+    if (!work) return res.status(404).json({ error: 'Work not found' });
+
+    work.materialApproved = true; // ✅ This flag must exist
+    await work.save();
+
+    res.json({ message: 'Material request approved', work });
+  } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
